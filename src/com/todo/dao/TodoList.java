@@ -28,6 +28,8 @@ public class TodoList {
 	public ArrayList<TodoItem> getList() {
 		return new ArrayList<TodoItem>(list);
 	}
+	
+
 
 	public void sortByName() {
 		Collections.sort(list, new TodoSortByName());
@@ -51,5 +53,13 @@ public class TodoList {
 			if (title.equals(item.getTitle())) return true;
 		}
 		return false;
+	}
+
+	public int getSize() {
+		return list.size();
+	}
+
+	public TodoItem getItem(int index) {
+		return list.get(index);
 	}
 }
