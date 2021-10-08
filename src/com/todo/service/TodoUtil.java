@@ -31,11 +31,6 @@ public class TodoUtil {
 			return;
 		}
 		
-//		sc.nextLine();
-//		System.out.print("카테고리 > ");
-//		category = sc.nextLine();
-		
-//		sc.nextLine();
 		System.out.print("내용 > ");
 		desc = sc.nextLine().trim();
 		
@@ -53,23 +48,19 @@ public class TodoUtil {
 		
 		System.out.print("[항목 삭제]\n"
 				+ "삭제할 항목의 번호를 입력하시오 > ");
-//		String title = sc.next();
 		int i = sc.nextInt();
-		System.out.println((i) + ". " + l.getItem(i-1));
+		if(i > l.getSize()) {
+			System.out.println("없는 번호입니다!");
+			return;
+		}
+		System.out.println((i) + ". " + l.getItem(i-1).toString());
+		
 		System.out.print("\n위 항목을 삭제하시겠습니까? (y/n) > ");
 		String answer = sc.next();
 		if(answer.equals("y")) {
 			l.deleteItem(l.getItem(i-1));
 			System.out.println("삭제되었습니다.");
 		}
-		
-//		for (TodoItem item : l.getList()) {
-//			if (title.equals(item.getTitle())) {
-//				l.deleteItem(item);
-//				System.out.println("삭제되었습니다.");
-//				break;
-//			}
-//		}
 	}
 
 
@@ -104,99 +95,65 @@ public class TodoUtil {
 			System.out.println("제목이 중복됩니다!");
 			return;
 		}
-		//
-//		System.out.print("새 제목 > ");
-//		 new_title = sc.next().trim();
-//		if (l.isDuplicate(new_title)) {
-//			System.out.println("제목이 중복됩니다!");
-//			return;
-//		}
-//		
-//		sc.nextLine();
-//		System.out.print("새 카테고리 > ");
-//		 new_category = sc.nextLine();
-		
-//		sc.nextLine();
 		System.out.print("새 내용 > ");
 		 new_description = sc.nextLine().trim();
 		
 		System.out.print("새 마감일자(yyyy/mm/dd) > ");
 		 new_due_date = sc.nextLine().trim();
 		
-//		l.deleteItem(l.getItem(i-1));
+
 		TodoItem t = new TodoItem(new_category, new_title, new_description, new_due_date);
 		l.addItem(t);
 		System.out.println("수정되었습니다.");
-		
-//		for (TodoItem item : l.getList()) {
-//			if (item.getTitle().equals(title)) {
-//				l.deleteItem(item);
-//				TodoItem t = new TodoItem(new_title, new_category, new_description, new_due_date);
-//				l.addItem(t);
-//				System.out.println("수정되었습니다.");
-//			}
-//		}
 	}
 
 	public static void listAll(TodoList l) {
-//		int j = 1;
 		System.out.println("[전체 목록, 총 " + l.getSize() + "개]");
-//		for (TodoItem item : l.getList()) {
-//			System.out.println(j + ". " + item.toString());
-//			j++;
-//		}
+
 		for(int i=0; i<l.getSize(); i++)
 			System.out.println((i+1) + ". " + l.getItem(i).toString());
 	}
 	
 	public static void ls_cate(TodoList l) {
 		
-		HashSet<String> hashSet = new HashSet<>();
+		Set<String> clist = new HashSet<>();
 		ArrayList<String> arrs = new ArrayList();
 		
-		for (TodoItem item : l.getList()) {
-			hashSet.add(item.getCategory());
-		}
-		for (Object o : hashSet) {
-			arrs.add(o.toString());
-        }
-		String str = "";
-		for(String arr : arrs) {
-			str += arr + " / ";
+		for(TodoItem item : l.getList()) {
+			clist.add(item.getCategory());
 		}
 		
-		System.out.println(str.substring(0, str.length()-3));
-		System.out.println("총 " + hashSet.size() + "개의 카테고리가 등록되어 있습니다.");
+		Iterator it = clist.iterator();
+		while(it.hasNext()) {
+			String s = (String)it.next();
+			System.out.print(s);
+			if(it.hasNext())
+				System.out.print(" / ");
+		}
+		System.out.printf("\n총 %d개의 카테고리가 등록되어 있습니다.\n", clist.size());
 	}
 	
 	public static void find(TodoList l, String find) {
 		
-		int i = 0, count = 0;
-		
-		for (TodoItem item : l.getList()) {
-			if (item.getTitle().contains(find)) {
+		int count = 0;
+		for(int i=0; i<l.getSize(); i++) {
+			if(l.getItem(i).getTitle().contains(find)||l.getItem(i).getDesc().contains(find)) {
 				System.out.println((i+1) + ". " + l.getItem(i).toString());
 				count++;
 			}
-			else if(item.getDesc().contains(find)) {
-				System.out.println((i+1) + ". " + l.getItem(i).toString());
-				count++;
-			}
-			i++;
 		}
 		System.out.println("총 " + count + "개의 항목을 찾았습니다.");
 	}
 	
 	public static void find_cate(TodoList l, String find) {
 		
-		int i = 0, count = 0;
+		int count = 0;
 		
-		for (TodoItem item : l.getList()) {
-			if (item.getCategory().contains(find)) {
+		for(int i=0; i<l.getSize(); i++) {
+			if(l.getItem(i).getCategory().contains(find)) {
 				System.out.println((i+1) + ". " + l.getItem(i).toString());
 				count++;
 			}
-			i++;
 		}
 		System.out.println("총 " + count + "개의 항목을 찾았습니다.");
 	}

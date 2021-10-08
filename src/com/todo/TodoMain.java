@@ -74,7 +74,7 @@ public class TodoMain {
 			case "ls_date_desc":
 				l.sortByDate();
 				l.reverseList();
-				System.out.println("날짜역순으로 정렬하였습니다");
+				System.out.println("최신순으로 정렬하였습니다");
 				isList = true;
 				break;
 				
